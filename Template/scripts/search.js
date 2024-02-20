@@ -1,46 +1,47 @@
-import { loadOmdbMovies } from "./fetch";
+// import { loadOmdbMovies } from "./fetch.js";
+// console.log(`hej`);
+// const apiKey = `2799d50` // Min api nyckel
 
-const apiKey = `2799d50` // Min api nyckel
+// searchBtnRef.addEventListener(`click`, async (event) => {
+//     event.preventDefault();
 
-searchInputRef.addEventListener(`click`, async (event) => {
-    event.preventDefault();
+//     const inputField = await loadOmdbMovies();
+//     let searchInputRef = document.querySelector(`#searchInput`);
+//     const resultOfMovie = inputField.filter(movie => movie.Title.includes(searchInputRef.value));
 
-    const inputField = await loadOmdbMovies();
-    const searchInputRef = document.querySelector(`#searchInput`);
-    
+//     for (let i = 0; i < resultOfMovie.length; i++) {
 
-    const resultOfMovie = inputField.filter(movie => movie.Title.includes(searchInputRef.value));
+//         const foundMovie = await loadOmdbMovies(resultOfMovie[i].Search.Title);
 
-    for (let i = 0; i < resultOfMovie.length; i++) {
+//         let divRef = document.createElement(`div`);
+//         divRef.classList.add(`popular__movie-poster`);
+//         divRef.dataset.id = movie.imdbid;
+//         popularCardContainerRef.appendChild(divRef);
 
-        const foundMovie = await loadOmdbMovies(resultOfMovie[i].Title);
+//         let imgElem = document.createElement(`img`);
+//         imgElem.src = movie.poster;
+//         imgElem.alt = movie.title;
+//         divRef.appendChild(imgElem);
 
-        let divRef = document.createElement(`div`);
-        divRef.classList.add(`popular__movie-poster`);
-        divRef.dataset.id = movie.imdbid;
-        popularCardContainerRef.appendChild(divRef);
+//         let pElem = document.createElement(`p`);
+//         pElem.classList.add(`popular__movie-title`);
+//         pElem.textContent = movie.title;
+//         divRef.appendChild(pElem);
 
-        let imgElem = document.createElement(`img`);
-        imgElem.src = movie.poster;
-        imgElem.alt = movie.title;
-        divRef.appendChild(imgElem);
+//         let starElem = document.createElement(`img`);
+//         starElem.classList.add(`popular__star`);
+//         starElem.src = `./res/star.png`;
 
-        let pElem = document.createElement(`p`);
-        pElem.classList.add(`popular__movie-title`);
-        pElem.textContent = movie.title;
-        divRef.appendChild(pElem);
+//         starElem.addEventListener(`mouseover`, () => {
+//             starElem.src = `./res/star-filled.png`;
+//         });
 
-        let starElem = document.createElement(`img`);
-        starElem.classList.add(`popular__star`);
-        starElem.src = `./res/star.png`;
+//         starElem.addEventListener(`mouseout`, () => {
+//             starElem.src = `./res/star.png`;
+//         });
+//         divRef.appendChild(starElem);
+//     };
+// });
 
-        starElem.addEventListener(`mouseover`, () => {
-            starElem.src = `./res/star-filled.png`;
-        });
 
-        starElem.addEventListener(`mouseout`, () => {
-            starElem.src = `./res/star.png`;
-        });
-        divRef.appendChild(starElem);
-    };
-});
+// Gör en funktion som renderar ut sökresultatet och töm inner html för 20 filmerna.

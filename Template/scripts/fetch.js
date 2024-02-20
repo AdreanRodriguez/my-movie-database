@@ -1,3 +1,6 @@
+const apiKey = `2799d50` // Min api nyckel
+const searchInputRef = document.querySelector(`#searchInput`)
+
 
     const loadTwentyMovies = async () => {
     const response = await fetch(`https://santosnr6.github.io/Data/movies.json`);
@@ -7,10 +10,11 @@
 
 
 const loadOmdbMovies = async () => {
-    const response = await fetch(`http://www.omdbapi.com/?apikey=2799d50&s=Batman`);
+    const response = await fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${searchInputRef.value}`);
     const omdbMovies = await response.json();
-    console.log(omdbMovies.Search);
-    return omdbMovies;
-
+    // console.log(typeof omdbMovies.Search);
+    return omdbMovies.Search;
+    
 };
+
 export { loadTwentyMovies, loadOmdbMovies };
