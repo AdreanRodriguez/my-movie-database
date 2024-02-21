@@ -1,12 +1,14 @@
 'use strict';
+import { renderSearchListener } from "./search.js";
 import { loadTwentyMovies, loadOmdbMovies } from "./fetch.js";
-// import {  } from "./search.js";
+
 window.addEventListener('load', () => {
     console.log('load');
     //Förslagsvis anropar ni era funktioner som skall sätta lyssnare, rendera objekt osv. härifrån
+
     setupCarousel();
-    renderTwentyMovies();
     loadOmdbMovies();
+    renderTwentyMovies();
     fiveTrailers();
 });
 
@@ -74,7 +76,7 @@ const renderTwentyMovies = async () => {
 
     const twentyMovies = await loadTwentyMovies();
     const popularCardContainerRef = document.querySelector(`#popularCardContainer`);
-    console.log(twentyMovies);
+
     for (let i = 0; i < twentyMovies.length; i++) {
 
         const movie = twentyMovies[i];
@@ -112,55 +114,21 @@ const renderTwentyMovies = async () => {
 };
 
 
-const renderSearchList = async () => {
-
-    const resultWrapper = document.querySelector(`section:nth-child(3)`);
-    resultWrapper.classList.remove(`d-none`);
-
-    const contentWrapperRef = document.querySelector(`section:nth-child(4)`);
-    contentWrapperRef.innerHTML = ``
-    // classList.add(`d-none`)
-
-    const popularCardContainerRef = document.querySelector(`section:nth-child(5)`);
-    popularCardContainerRef.innerHTML = ``
-    // popularCardContainerRef.classList.add(`d-none`);
-
-    // const renderNew = document.querySelector(`section:nth-child(3)`)
-    // renderNew.innerHTML = ``;
-
-    // const resultTitle = document.querySelector(`.results__title`)
-    // let searchInputRef = document.querySelector(`#searchInput`);
-
-    // resultTitle.textContent = `Search result for ${searchInputRef}`;
-    // console.log(searchInputRef.value);
-
-    // const popularTitleRef = document.querySelector(`section div .popular__title`);
-    // popularTitleRef.textContent = `Searchresult`
-
-}
-
-
-
-
-
-
-
-
-
-
+// Rendera ut "korten" när man sökt efter film.
 const searchBtnRef = document.querySelector(`#searchBtn`)
 searchBtnRef.addEventListener(`click`, async (event) => {
 
     event.preventDefault();
-    renderSearchList();
-
+    renderSearchListener();
 
     const inputField = await loadOmdbMovies();
-    console.log(inputField);
 
     console.log(`FOUND ME!`);
 
-    // popularCardContainerRef.innerHTML = ``
+
+    let ulRef = document.querySelector(`#resultsList`);
+    ulRef.innerHTML = ``
+
 
     for (let i = 0; i < inputField.length; i++) {
 
@@ -175,13 +143,13 @@ searchBtnRef.addEventListener(`click`, async (event) => {
         articleRef.classList.add(`popular__movie-poster`);
         articleRef.dataset.id = movie.imdbID;
 
-        let ulRef = document.querySelector(`#resultsList`);
         ulRef.appendChild(articleRef)
 
         let imgElem = document.createElement(`img`);
-        imgElem.src = movie.Poster;
         imgElem.alt = movie.Title;
+
         articleRef.appendChild(imgElem);
+
 
         let pElem = document.createElement(`p`);
         pElem.classList.add(`popular__movie-title`);
@@ -205,6 +173,16 @@ searchBtnRef.addEventListener(`click`, async (event) => {
         starElem.addEventListener(`mouseout`, () => {
             starElem.src = `./res/star.png`;
         });
+
         articleRef.appendChild(starElem);
+
+        if (movie.Poster === "N/A") {
+            imgElem.src = `./res/no_image_available.jpeg`
+            starElem.src = ``
+            starElem.alt = ``
+            imgElem.classList.add(`no-img`)
+        } else {
+            imgElem.src = movie.Poster;
+        };
     };
 });

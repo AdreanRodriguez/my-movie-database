@@ -27,7 +27,7 @@ body {
 }
 
 /* .d-none {
-    display: none; Har lagt den längst ner
+    display: none; // Har lagt den längst ner för att det ska funka
 } */
 
 /* Header */
@@ -141,7 +141,7 @@ body {
     font-size: xx-large;
     color: var(--primary-white);
     text-align: center;
-    margin-top: 5rem;
+    margin: 3rem 0 3rem 0;
 }
 
 .results__list {
@@ -184,19 +184,25 @@ body {
     margin: 0 1rem 0 1rem;
     margin-bottom: -1rem;
     padding-top: 3rem;
-    /* width: 344px; */
-}
-
-.popular__movie-poster img {
     cursor: pointer;
 }
 
+.popular__movie-poster img {
+    aspect-ratio: 2/3;
+}
+
 .popular__star {
-    max-width: 30px;
+    width: 30px;
+    height: 30px;
     border-radius: 15%;
     align-self: flex-end;
     position: absolute;
     margin: 0.5rem 0.5rem 0 0;
+}
+
+
+.no-img {
+    cursor: no-drop;
 }
 
 
