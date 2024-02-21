@@ -23,13 +23,12 @@ body {
 /* Utils */
 .content-wrapper {
     width: 1280px;
-    /* width: 1440px; */
     margin: 0 auto;
 }
 
-.d-none {
-    display: none;
-}
+/* .d-none {
+    display: none; // Har lagt den längst ner för att det ska funka
+} */
 
 /* Header */
 .header {
@@ -138,6 +137,17 @@ body {
 
 /* Här skriver ni er CSS */
 
+.results__title {
+    font-size: xx-large;
+    color: var(--primary-white);
+    text-align: center;
+    margin: 3rem 0 3rem 0;
+}
+
+.results__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
 
 .popular__title {
     padding: 3rem;
@@ -148,28 +158,23 @@ body {
 }
 
 .popular__card-container {
-    /* display: flex;
-    flex-wrap: wrap;
-    text-align: center; */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 }
 
 .popular__movie-title {
     color: var(--primary-white);
-    /* text-align: center; */
     font-size: larger;
     font-family: sans-serif;
     padding: 1rem;
     white-space: nowrap;
-    */ text-overflow: ellipsis;
+    text-overflow: ellipsis;
     overflow: hidden;
     cursor: pointer;
 }
 
 .popular__movie-poster {
     text-align: center;
-    /* padding: 1rem; */
     display: flex;
     flex-direction: column;
     background-color: var(--primary-grey);
@@ -179,18 +184,25 @@ body {
     margin: 0 1rem 0 1rem;
     margin-bottom: -1rem;
     padding-top: 3rem;
-}
-
-.popular__movie-poster img {
     cursor: pointer;
 }
 
+.popular__movie-poster img {
+    aspect-ratio: 2/3;
+}
+
 .popular__star {
-    max-width: 30px;
+    width: 30px;
+    height: 30px;
     border-radius: 15%;
     align-self: flex-end;
     position: absolute;
     margin: 0.5rem 0.5rem 0 0;
+}
+
+
+.no-img {
+    cursor: no-drop;
 }
 
 
@@ -329,4 +341,8 @@ body {
     .popular__movie-poster img {
         width: 100%;
     }
+}
+
+.d-none {
+    display: none;
 }

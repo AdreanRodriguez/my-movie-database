@@ -1,11 +1,14 @@
 'use strict';
+import { renderSearchListener } from "./search.js";
 import { loadTwentyMovies, loadOmdbMovies } from "./fetch.js";
+
 window.addEventListener('load', () => {
     console.log('load');
     //Förslagsvis anropar ni era funktioner som skall sätta lyssnare, rendera objekt osv. härifrån
+
     setupCarousel();
-    renderTwentyMovies();
     loadOmdbMovies();
+    renderTwentyMovies();
     fiveTrailers();
 });
 
@@ -73,38 +76,113 @@ const renderTwentyMovies = async () => {
 
     const twentyMovies = await loadTwentyMovies();
     const popularCardContainerRef = document.querySelector(`#popularCardContainer`);
-    console.log(twentyMovies);
+
     for (let i = 0; i < twentyMovies.length; i++) {
 
         const movie = twentyMovies[i];
 
-        let divRef = document.createElement(`div`);
-        divRef.classList.add(`popular__movie-poster`);
-        divRef.dataset.id = movie.imdbid;
-        popularCardContainerRef.appendChild(divRef);
+        let articleRef = document.createElement(`article`);
+        articleRef.classList.add(`popular__movie-poster`);
+        articleRef.dataset.id = movie.imdbid;
+        popularCardContainerRef.appendChild(articleRef);
 
         let imgElem = document.createElement(`img`);
         imgElem.src = movie.poster;
-        imgElem.alt = movie.title;
-        divRef.appendChild(imgElem);
+        imgElem.alt = `Movie poster of ${movie.title}`;
+        articleRef.appendChild(imgElem);
 
         let pElem = document.createElement(`p`);
         pElem.classList.add(`popular__movie-title`);
         pElem.textContent = movie.title;
-        divRef.appendChild(pElem);
+        articleRef.appendChild(pElem);
 
         let starElem = document.createElement(`img`);
         starElem.classList.add(`popular__star`);
         starElem.src = `./res/star.png`;
+        starElem.alt = `Hollow star icon for favorites`
 
         starElem.addEventListener(`mouseover`, () => {
             starElem.src = `./res/star-filled.png`;
+            starElem.alt = `Filled star icon for favorites`
         });
 
         starElem.addEventListener(`mouseout`, () => {
             starElem.src = `./res/star.png`;
         });
-        divRef.appendChild(starElem);
+        articleRef.appendChild(starElem);
     };
 };
-console.log(`FOUND ME!`);
+
+
+// Rendera ut "korten" när man sökt efter film.
+const searchBtnRef = document.querySelector(`#searchBtn`)
+searchBtnRef.addEventListener(`click`, async (event) => {
+
+    event.preventDefault();
+    renderSearchListener();
+
+    const inputField = await loadOmdbMovies();
+
+    console.log(`FOUND ME!`);
+
+
+    let ulRef = document.querySelector(`#resultsList`);
+    ulRef.innerHTML = ``
+
+
+    for (let i = 0; i < inputField.length; i++) {
+
+        const movie = inputField[i];
+        console.log(movie);
+
+        const popularCardContainerRef = document.querySelector(`section:nth-child(3)`);
+        popularCardContainerRef.classList.add(`section`)
+
+
+        let articleRef = document.createElement(`article`);
+        articleRef.classList.add(`popular__movie-poster`);
+        articleRef.dataset.id = movie.imdbID;
+
+        ulRef.appendChild(articleRef)
+
+        let imgElem = document.createElement(`img`);
+        imgElem.alt = movie.Title;
+
+        articleRef.appendChild(imgElem);
+
+
+        let pElem = document.createElement(`p`);
+        pElem.classList.add(`popular__movie-title`);
+        pElem.textContent = movie.Title;
+        articleRef.appendChild(pElem);
+
+        const searchInputRef = document.querySelector(`#searchInput`)
+        const resultTitle = document.querySelector(`.results__title`)
+        resultTitle.textContent = `Search result for: ${searchInputRef.value}`;
+
+        let starElem = document.createElement(`img`);
+        starElem.classList.add(`popular__star`);
+        starElem.src = `./res/star.png`;
+        starElem.alt = `Hollow star icon for favorites`
+
+        starElem.addEventListener(`mouseover`, () => {
+            starElem.src = `./res/star-filled.png`;
+            starElem.alt = `Filled star icon for favorites`
+        });
+
+        starElem.addEventListener(`mouseout`, () => {
+            starElem.src = `./res/star.png`;
+        });
+
+        articleRef.appendChild(starElem);
+
+        if (movie.Poster === "N/A") {
+            imgElem.src = `./res/no_image_available.jpeg`
+            starElem.src = ``
+            starElem.alt = ``
+            imgElem.classList.add(`no-img`)
+        } else {
+            imgElem.src = movie.Poster;
+        };
+    };
+});
