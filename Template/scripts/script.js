@@ -1,15 +1,18 @@
 'use strict';
 import { renderSearchListener } from "./search.js";
+import { setupFavorites, starIcon } from "./favorites.js";
 import { loadTwentyMovies, loadOmdbMovies } from "./fetch.js";
+
 
 window.addEventListener('load', () => {
     console.log('load');
     //Förslagsvis anropar ni era funktioner som skall sätta lyssnare, rendera objekt osv. härifrån
-
     setupCarousel();
     loadOmdbMovies();
     renderTwentyMovies();
     fiveTrailers();
+    setupFavorites();
+    starIcon();
 });
 
 
@@ -35,7 +38,7 @@ function setupCarousel() {
             delete activeSlide.dataset.active;
         });
     });
-}
+};
 
 
 
@@ -98,6 +101,7 @@ const renderTwentyMovies = async () => {
 
         let starElem = document.createElement(`img`);
         starElem.classList.add(`popular__star`);
+        starElem.id = `popularStar`;
         starElem.src = `./res/star.png`;
         starElem.alt = `Hollow star icon for favorites`
 
@@ -162,16 +166,18 @@ searchBtnRef.addEventListener(`click`, async (event) => {
 
         let starElem = document.createElement(`img`);
         starElem.classList.add(`popular__star`);
+        starElem.id = `popularStar`;
         starElem.src = `./res/star.png`;
-        starElem.alt = `Hollow star icon for favorites`
+        
 
         starElem.addEventListener(`mouseover`, () => {
             starElem.src = `./res/star-filled.png`;
             starElem.alt = `Filled star icon for favorites`
         });
 
-        starElem.addEventListener(`mouseout`, () => {
+        starElem.addEventListener(`mouseleave`, () => {
             starElem.src = `./res/star.png`;
+            starElem.alt = `Hollow star icon for favorites`
         });
 
         articleRef.appendChild(starElem);

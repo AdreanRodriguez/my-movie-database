@@ -1,4 +1,3 @@
-import { loadOmdbMovies } from "./fetch.js";
 
 
 const renderSearchListener = async () => {
