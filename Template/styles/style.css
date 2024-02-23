@@ -135,7 +135,28 @@ body {
     right: 1rem;
 }
 
+
+
+
+
 /* Här skriver ni er CSS */
+
+
+/* Fixa styling till alla 3 här istället för enskilt */
+/* .results, */
+/* .popular  */
+.favorites {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
+
+.favorites-container__section-heading {
+    color: var(--primary-white);
+    font-size: xx-large;
+}
+
+
+
 
 .results__title {
     font-size: xx-large;
@@ -187,22 +208,45 @@ body {
     cursor: pointer;
 }
 
+
 .popular__movie-poster img {
     aspect-ratio: 2/3;
 }
 
 .popular__star {
+    /* background-image: url(../res/star.png); */
     width: 30px;
     height: 30px;
     border-radius: 15%;
     align-self: flex-end;
     position: absolute;
     margin: 0.5rem 0.5rem 0 0;
+    cursor: pointer;
+    /* backdrop-filter: brightness(0); */
 }
 
+/* 
+.popular__star.filled {
+    background-image: url('./res/star-filled.png');
+background-position: center;
+    cursor: pointer;
+} */
 
 .no-img {
     cursor: no-drop;
+}
+
+.favorites-container__section {
+    display: flex;
+    justify-content: space-around;
+    margin: 4rem 0 4rem 0;
+}
+
+.clear-btn {
+    padding: 0.5rem 1.5rem;
+    background-color: var(--primary-white);
+    border: none;
+    border-radius: 5px;
 }
 
 

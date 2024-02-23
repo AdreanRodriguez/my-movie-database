@@ -7,6 +7,7 @@ const loadTwentyMovies = async () => {
     try {
         const response = await fetch(`https://santosnr6.github.io/Data/movies.json`);
         const twentyMovies = await response.json();
+        console.log(twentyMovies);
         return twentyMovies;
     } catch (error) {
         console.error(`Failed to fetch data from Jesper`);

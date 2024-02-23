@@ -1,18 +1,19 @@
 'use strict';
 import { renderSearchListener } from "./search.js";
-import { setupFavorites, starIcon } from "./favorites.js";
+import { addToFavorites, removeFromFavorites } from "./localStorage.js";
 import { loadTwentyMovies, loadOmdbMovies } from "./fetch.js";
-
+import { setupFavorites } from "./favorites.js";
 
 window.addEventListener('load', () => {
     console.log('load');
+
     //Förslagsvis anropar ni era funktioner som skall sätta lyssnare, rendera objekt osv. härifrån
+
     setupCarousel();
     loadOmdbMovies();
     renderTwentyMovies();
     fiveTrailers();
     setupFavorites();
-    starIcon();
 });
 
 
@@ -79,6 +80,9 @@ const renderTwentyMovies = async () => {
 
     const twentyMovies = await loadTwentyMovies();
     const popularCardContainerRef = document.querySelector(`#popularCardContainer`);
+    // const popularRef = document.querySelector(`.popular`);
+    // Om tid finns byta och styla den andra kontainern
+
 
     for (let i = 0; i < twentyMovies.length; i++) {
 
@@ -99,23 +103,51 @@ const renderTwentyMovies = async () => {
         pElem.textContent = movie.title;
         articleRef.appendChild(pElem);
 
+
         let starElem = document.createElement(`img`);
         starElem.classList.add(`popular__star`);
         starElem.id = `popularStar`;
         starElem.src = `./res/star.png`;
         starElem.alt = `Hollow star icon for favorites`
 
-        starElem.addEventListener(`mouseover`, () => {
-            starElem.src = `./res/star-filled.png`;
-            starElem.alt = `Filled star icon for favorites`
+
+        let isFilledStar = false;
+        starElem.addEventListener(`click`, async () => {
+            if (!isFilledStar) {
+                console.log(`When clicked, star is filled`);
+                starElem.src = `./res/star-filled.png`
+
+                const movieId = articleRef.dataset.id;
+                const movieTitle = pElem.textContent;
+                const moviePoster = imgElem.src;
+
+                const movieInfo = {
+                    id: movieId,
+                    title: movieTitle,
+                    poster: moviePoster
+                };
+
+                addToFavorites(movieInfo);
+
+                console.log(`localStorage Clicked`);
+
+                isFilledStar = true;
+            } else {
+                console.log(`When click, star is hollow`);
+                starElem.src = `./res/star.png`
+                isFilledStar = false;
+
+                removeFromFavorites(articleRef.dataset.id)
+            }
         });
 
-        starElem.addEventListener(`mouseout`, () => {
-            starElem.src = `./res/star.png`;
-        });
         articleRef.appendChild(starElem);
     };
 };
+
+
+
+
 
 
 // Rendera ut "korten" när man sökt efter film.
@@ -128,6 +160,7 @@ searchBtnRef.addEventListener(`click`, async (event) => {
     const inputField = await loadOmdbMovies();
 
     console.log(`FOUND ME!`);
+    console.log(inputField);
 
 
     let ulRef = document.querySelector(`#resultsList`);
@@ -162,31 +195,50 @@ searchBtnRef.addEventListener(`click`, async (event) => {
 
         const searchInputRef = document.querySelector(`#searchInput`)
         const resultTitle = document.querySelector(`.results__title`)
-        resultTitle.textContent = `Search result for: ${searchInputRef.value}`;
+        resultTitle.textContent = `Top 10 search result for: ${searchInputRef.value}`;
+
 
         let starElem = document.createElement(`img`);
         starElem.classList.add(`popular__star`);
         starElem.id = `popularStar`;
         starElem.src = `./res/star.png`;
-        
 
-        starElem.addEventListener(`mouseover`, () => {
-            starElem.src = `./res/star-filled.png`;
-            starElem.alt = `Filled star icon for favorites`
-        });
 
-        starElem.addEventListener(`mouseleave`, () => {
-            starElem.src = `./res/star.png`;
-            starElem.alt = `Hollow star icon for favorites`
+        let isFilledStar = false;
+        starElem.addEventListener(`click`, async () => {
+            if (!isFilledStar) {
+                console.log(`When clicked, star is filled`);
+                starElem.src = `./res/star-filled.png`
+
+                const movieId = articleRef.dataset.id;
+                const movieTitle = pElem.textContent;
+                const moviePoster = imgElem.src;
+
+                const movieInfo = {
+                    id: movieId,
+                    title: movieTitle,
+                    poster: moviePoster
+                };
+
+                addToFavorites(movieInfo);
+
+                console.log(`localStorage Clicked`);
+
+                isFilledStar = true;
+            } else {
+                console.log(`When click, star is hollow`);
+                starElem.src = `./res/star.png`
+                isFilledStar = false;
+
+                removeFromFavorites(articleRef.dataset.id)
+            }
         });
 
         articleRef.appendChild(starElem);
 
         if (movie.Poster === "N/A") {
-            imgElem.src = `./res/no_image_available.jpeg`
-            starElem.src = ``
-            starElem.alt = ``
-            imgElem.classList.add(`no-img`)
+            imgElem.src = `./res/no_image_available.jpeg`;
+            imgElem.classList.add(`no-img`);
         } else {
             imgElem.src = movie.Poster;
         };
