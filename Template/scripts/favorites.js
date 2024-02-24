@@ -6,6 +6,10 @@ import { addToFavorites, removeFromFavorites } from "./localStorage.js";
 
 const setupFavorites = async () => {
 
+    // // Gömmer section nr 3
+    const sectionFour = document.querySelector(`section:nth-child(3)`);
+    sectionFour.classList.add(`d-none`)
+
     const favBtnRef = document.querySelector(`#favBtn`);
     favBtnRef.addEventListener(`click`, async () => {
 
@@ -13,9 +17,7 @@ const setupFavorites = async () => {
         const favoritesContainerRef = document.querySelector(`#favoritesContainer`);
         favoritesContainerRef.classList.remove(`d-none`)
 
-        // // Tömmer section nr 3
-        // const sectionFour = document.querySelector(`section:nth-child(3)`);
-        // sectionFour.innerHTML = ``;
+
 
         // Tömmer section nr 4
         const sectionFour = document.querySelector(`section:nth-child(4)`);
@@ -42,9 +44,9 @@ const setupFavorites = async () => {
 
         // Gör en knapp för att kunna använda till att ta bort alla favoriter.
         const clearAllFavBtn = document.createElement(`button`);
-        clearAllFavBtn.classList.add(`clear-btn`)
-        clearAllFavBtn.id = `clearBtn`
-        clearAllFavBtn.textContent = `Delete all favorites`
+        clearAllFavBtn.classList.add(`clear-btn`);
+        clearAllFavBtn.id = `clearBtn`;
+        clearAllFavBtn.textContent = `Delete all favorites`;
         newSection.appendChild(clearAllFavBtn);
 
 
@@ -61,7 +63,7 @@ const setupFavorites = async () => {
 
             const movieElem = document.createElement(`article`);
             movieElem.classList.add(`popular__movie-poster`);
-            movieElem.dataset.id = movie.imdbid;
+            movieElem.dataset.id = movie.id;
             divRef.appendChild(movieElem);
 
             const posterElem = document.createElement(`img`);
@@ -89,18 +91,15 @@ const setupFavorites = async () => {
             //     const movieId = movie.id;
             //     removeFromFavorites(movieId);
             //     localStorage.setItem(`favorites`, JSON.stringify(favorites));
-                
+
             // });
 
 
-            // let isFilledStar = false;
             starElem.addEventListener(`click`, async () => {
-                // if (!isFilledStar) {
+                
                 console.log(`When clicked, star is filled`);
                 starElem.src = `./res/star.png`;
                 starElem.alt = `Hollow star icon for favorites`;
-
-
 
                 const movieId = movie.id;
                 const movieTitle = titleElem.textContent;
@@ -111,7 +110,6 @@ const setupFavorites = async () => {
                     title: movieTitle,
                     poster: moviePoster
                 };
-
 
                 // Ta bort filmen i från localStorage
                 removeFromFavorites(movieId);
@@ -133,6 +131,7 @@ const setupFavorites = async () => {
                 localStorage.setItem(`favorites`, JSON.stringify(favorites));
                 // Ta bort filmen från DOM
                 movieElem.remove();
+                
 
             })
             console.log(`Längst ner i favorites`);

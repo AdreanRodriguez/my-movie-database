@@ -80,6 +80,7 @@ const renderTwentyMovies = async () => {
 
     const twentyMovies = await loadTwentyMovies();
     const popularCardContainerRef = document.querySelector(`#popularCardContainer`);
+    
     // const popularRef = document.querySelector(`.popular`);
     // Om tid finns byta och styla den andra kontainern
 
@@ -116,6 +117,7 @@ const renderTwentyMovies = async () => {
             if (!isFilledStar) {
                 console.log(`When clicked, star is filled`);
                 starElem.src = `./res/star-filled.png`
+                starElem.alt = `Filled star icon for favorites`
 
                 const movieId = articleRef.dataset.id;
                 const movieTitle = pElem.textContent;
@@ -136,7 +138,7 @@ const renderTwentyMovies = async () => {
                 console.log(`When click, star is hollow`);
                 starElem.src = `./res/star.png`
                 isFilledStar = false;
-
+                starElem.alt = `Hollow star icon for favorites`
                 removeFromFavorites(articleRef.dataset.id)
             }
         });
@@ -209,6 +211,7 @@ searchBtnRef.addEventListener(`click`, async (event) => {
             if (!isFilledStar) {
                 console.log(`When clicked, star is filled`);
                 starElem.src = `./res/star-filled.png`
+                starElem.alt = `Filled star icon for favorites`
 
                 const movieId = articleRef.dataset.id;
                 const movieTitle = pElem.textContent;
@@ -229,7 +232,7 @@ searchBtnRef.addEventListener(`click`, async (event) => {
                 console.log(`When click, star is hollow`);
                 starElem.src = `./res/star.png`
                 isFilledStar = false;
-
+                starElem.alt = `Hollow star icon for favorites`
                 removeFromFavorites(articleRef.dataset.id)
             }
         });
