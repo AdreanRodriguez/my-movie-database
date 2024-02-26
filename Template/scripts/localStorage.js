@@ -1,7 +1,7 @@
 
 
 // Lägga till film i favoriter
-const addToFavorites = (movieInfo) => {
+const addToFavorites = async (movieInfo) => {
 
     // Hämta favoritlistan från localStorage eller skapa en ny om den inte finns
     // JSON.parse omvandlar denna sträng till ett JavaScript-objekt eller en tom array istället för null
@@ -14,7 +14,7 @@ const addToFavorites = (movieInfo) => {
     localStorage.setItem(`favorites`, JSON.stringify(favorites));
 };
 
-const removeFromFavorites = (movieID) => {
+const removeFromFavorites = async (movieID) => {
 
     // Hämta favoritlistan från localStorage eller skapa en ny om den inte finns
     let favorites = JSON.parse(localStorage.getItem(`favorites`)) || [];
@@ -25,5 +25,6 @@ const removeFromFavorites = (movieID) => {
     // Spara den uppdaterande favoritlistan till localStorage
     localStorage.setItem(`favorites`, JSON.stringify(favorites));
 };
+
 
 export { addToFavorites, removeFromFavorites };

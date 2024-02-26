@@ -122,8 +122,9 @@ body {
     border: none;
 }
 
-.carousel__btn:hover,
-.carousel__btn:focus {
+/* Tagit bort ,
+.carousel__btn:focus */
+.carousel__btn:hover {
     color: var(--primary-white);
 }
 
@@ -150,12 +151,17 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 }
 
+.favorites-container__title {
+    font-size: xx-large;
+    color: var(--primary-white);
+    text-align: center;
+    margin: 3rem 0 3rem 0;
+}
+
 .favorites-container__section-heading {
     color: var(--primary-white);
     font-size: xx-large;
 }
-
-
 
 
 .results__title {
@@ -214,7 +220,6 @@ body {
 }
 
 .popular__star {
-    /* background-image: url(../res/star.png); */
     width: 30px;
     height: 30px;
     border-radius: 15%;
@@ -225,12 +230,6 @@ body {
     /* backdrop-filter: brightness(0); */
 }
 
-/* 
-.popular__star.filled {
-    background-image: url('./res/star-filled.png');
-background-position: center;
-    cursor: pointer;
-} */
 
 .no-img {
     cursor: no-drop;
@@ -247,6 +246,28 @@ background-position: center;
     background-color: var(--primary-white);
     border: none;
     border-radius: 5px;
+}
+
+/* .movie-year,
+.movie-actor,
+.movie-info,
+.movie-genre,
+.movie-writer,
+.movie-director,
+.movie-rating  */
+p {
+    color: var(--primary-white);
+
+}
+
+.clicked-movie {
+    background-color: var(--primary-grey);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.movie-section {
+    line-height: 20px;
 }
 
 
@@ -379,12 +400,9 @@ background-position: center;
 @media screen and (max-width: 440px) {
     .popular__card-container {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
     }
 
-    .popular__movie-poster img {
-        width: 100%;
-    }
 }
 
 .d-none {

@@ -1,8 +1,9 @@
 'use strict';
 import { renderSearchListener } from "./search.js";
 import { addToFavorites, removeFromFavorites } from "./localStorage.js";
-import { loadTwentyMovies, loadOmdbMovies } from "./fetch.js";
+import { loadTwentyMovies, loadOmdbMovies, loadSpecifiedDetails } from "./fetch.js";
 import { setupFavorites } from "./favorites.js";
+
 
 window.addEventListener('load', () => {
     console.log('load');
@@ -80,10 +81,9 @@ const renderTwentyMovies = async () => {
 
     const twentyMovies = await loadTwentyMovies();
     const popularCardContainerRef = document.querySelector(`#popularCardContainer`);
-    
+
     // const popularRef = document.querySelector(`.popular`);
     // Om tid finns byta och styla den andra kontainern
-
 
     for (let i = 0; i < twentyMovies.length; i++) {
 
@@ -94,10 +94,11 @@ const renderTwentyMovies = async () => {
         articleRef.dataset.id = movie.imdbid;
         popularCardContainerRef.appendChild(articleRef);
 
+
         let imgElem = document.createElement(`img`);
         imgElem.src = movie.poster;
         imgElem.alt = `Movie poster of ${movie.title}`;
-        articleRef.appendChild(imgElem);
+        articleRef.appendChild(imgElem)
 
         let pElem = document.createElement(`p`);
         pElem.classList.add(`popular__movie-title`);
@@ -151,7 +152,6 @@ const renderTwentyMovies = async () => {
 
 
 
-
 // Rendera ut "korten" när man sökt efter film.
 const searchBtnRef = document.querySelector(`#searchBtn`)
 searchBtnRef.addEventListener(`click`, async (event) => {
@@ -184,10 +184,13 @@ searchBtnRef.addEventListener(`click`, async (event) => {
 
         ulRef.appendChild(articleRef)
 
-        let imgElem = document.createElement(`img`);
-        imgElem.alt = movie.Title;
+        ulRef.appendChild(articleRef)
 
-        articleRef.appendChild(imgElem);
+        const posterElem = document.createElement(`img`);
+        posterElem.src = movie.Poster;
+        posterElem.alt = movie.Title;
+
+        articleRef.appendChild(posterElem);
 
 
         let pElem = document.createElement(`p`);
@@ -215,7 +218,7 @@ searchBtnRef.addEventListener(`click`, async (event) => {
 
                 const movieId = articleRef.dataset.id;
                 const movieTitle = pElem.textContent;
-                const moviePoster = imgElem.src;
+                const moviePoster = posterElem.src;
 
                 const movieInfo = {
                     id: movieId,
@@ -231,8 +234,8 @@ searchBtnRef.addEventListener(`click`, async (event) => {
             } else {
                 console.log(`When click, star is hollow`);
                 starElem.src = `./res/star.png`
-                isFilledStar = false;
                 starElem.alt = `Hollow star icon for favorites`
+                isFilledStar = false;
                 removeFromFavorites(articleRef.dataset.id)
             }
         });
@@ -240,10 +243,88 @@ searchBtnRef.addEventListener(`click`, async (event) => {
         articleRef.appendChild(starElem);
 
         if (movie.Poster === "N/A") {
-            imgElem.src = `./res/no_image_available.jpeg`;
-            imgElem.classList.add(`no-img`);
+            posterElem.src = `./res/no_image_available.jpeg`;
+            posterElem.classList.add(`no-img`);
         } else {
-            imgElem.src = movie.Poster;
+            posterElem.src = movie.Poster;
         };
+
+        posterElem.dataset.id = movie.imdbID
+
+
+        posterElem.addEventListener(`click`, async (event) => {
+            console.log(event.currentTarget);
+
+
+            let ulRef = document.querySelector(`#resultsList`);
+            ulRef.innerHTML = ``
+
+            console.log(event.target.dataset.id);
+            const details = await loadSpecifiedDetails(event.currentTarget.dataset.id);
+
+            // Skapa och visa detaljer om den valda filmen
+            const articleMovie = document.createElement(`article`);
+            articleMovie.classList.add(`article-movie`);
+            articleMovie.dataset.id = movie.id
+            ulRef.appendChild(articleMovie);
+
+            const posterElem = document.createElement(`img`);
+            posterElem.src = movie.Poster;
+            posterElem.alt = movie.Title;
+            articleMovie.appendChild(posterElem);
+
+            const sectionInfo = document.createElement(`section`);
+            sectionInfo.classList.add(`movie-section`);
+            ulRef.appendChild(sectionInfo)
+
+            const imdbRatingRef = document.createElement(`p`);
+            imdbRatingRef.classList.add(`movie-rating`);
+            imdbRatingRef.textContent = `Imdb rating: ${details.imdbRating} / 10`
+            sectionInfo.appendChild(imdbRatingRef)
+
+            const titleElem = document.createElement(`p`);
+            titleElem.classList.add(`popular__movie-title`);
+            titleElem.textContent = details.Title;
+            sectionInfo.appendChild(titleElem);
+
+            const infoText = document.createElement(`p`);
+            infoText.classList.add(`movie-info`);
+            infoText.textContent = `${details.Plot}`
+            sectionInfo.appendChild(infoText)
+
+            const yearRef = document.createElement(`p`)
+            yearRef.classList.add(`movie-year`);
+            yearRef.textContent = `Year: ${details.Year}`
+            sectionInfo.appendChild(yearRef)
+
+            const actorsRef = document.createElement(`p`)
+            actorsRef.classList.add(`movie-actor`);
+            actorsRef.textContent = `Actor: ${details.Actors}`
+            sectionInfo.appendChild(actorsRef);
+
+            const genreRef = document.createElement(`p`);
+            genreRef.classList.add(`movie-genre`);
+            genreRef.textContent = `Genre: ${details.Genre}`
+            sectionInfo.appendChild(genreRef)
+
+            const writerRef = document.createElement(`p`);
+            writerRef.classList.add(`movie-writer`);
+            writerRef.textContent = `Writer: ${details.Writer}`
+            sectionInfo.appendChild(writerRef)
+
+            const directorRef = document.createElement(`p`);
+            directorRef.classList.add(`movie-director`);
+            directorRef.textContent = `Director: ${details.Director}`
+            sectionInfo.appendChild(directorRef)
+
+            const runTimeRef = document.createElement(`p`);
+            runTimeRef.classList.add(`movie-runtime`);
+            runTimeRef.textContent = `Runtime: ${details.Runtime}`
+            sectionInfo.appendChild(runTimeRef)
+
+        })
     };
 });
+
+
+export { loadSpecifiedDetails }
