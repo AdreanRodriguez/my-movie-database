@@ -10,6 +10,7 @@ const renderSearchListener = async () => {
 
     const popularCardContainerRef = document.querySelector(`section:nth-child(5)`);
     popularCardContainerRef.innerHTML = ``;
+
 }
 
 

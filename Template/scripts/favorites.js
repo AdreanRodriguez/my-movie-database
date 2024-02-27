@@ -18,6 +18,8 @@ const setupFavorites = async () => {
     const favBtnRef = document.querySelector(`#favBtn`);
     favBtnRef.addEventListener(`click`, async (event) => {
         event.preventDefault();
+
+
         // Tömmer input.
         const searchInputRef = document.querySelector(`#searchInput`)
         searchInputRef.value = ``
@@ -25,7 +27,6 @@ const setupFavorites = async () => {
         // Tar bort klassen d-none för att kunna visa innehållet i konteinern
         const favoritesContainerRef = document.querySelector(`#favoritesContainer`);
         favoritesContainerRef.classList.remove(`d-none`);
-
 
         // Tömmer section nr 4
         const sectionFour = document.querySelector(`section:nth-child(4)`);
@@ -35,13 +36,14 @@ const setupFavorites = async () => {
         const sectionFive = document.querySelector(`section:nth-child(5)`);
         sectionFive.innerHTML = ``;
 
-        // Kallar på #favorites för att kunna lägga mina filmer i den innuti forEach loopen
+        // Tömmer favoriter så det inte blir dubletter
         const divRef = document.querySelector(`#favorites`);
         divRef.innerHTML = ``;
 
-        const movies = await loadOmdbMovies();
+        // const movies = await loadOmdbMovies();
 
-
+        const sectionInfo = document.querySelector(`.section`);
+        sectionInfo.classList.add(`d-none`)
 
 
         // Hämta favoritlistan från localStorage
@@ -54,12 +56,13 @@ const setupFavorites = async () => {
 
             console.log('Nuvarande filmobjekt:', movie);
 
+            const divRef = document.querySelector(`#favorites`);
+
             const movieElem = document.createElement(`article`);
             movieElem.classList.add(`popular__movie-poster`);
             movieElem.dataset.id = movie.id;
-            divRef.appendChild(movieElem);
-            divRef.appendChild(movieElem);
 
+            divRef.appendChild(movieElem);
 
             const posterElem = document.createElement(`img`);
             posterElem.src = movie.poster;
@@ -74,7 +77,6 @@ const setupFavorites = async () => {
 
             let starElem = document.createElement(`img`);
             starElem.classList.add(`popular__star`);
-            starElem.id = `popularStar`;
             starElem.dataset.id = movie.id
             starElem.src = `./res/star-filled.png`;
             starElem.alt = `Filled star icon for favorites`;
@@ -89,17 +91,24 @@ const setupFavorites = async () => {
                 console.log(`här är våra detaljer`, details);
 
                 divRef.innerHTML = ``;
-                divRef.classList.add(`clicked-movie`);
+
+                const movieSection = document.createElement(`section`);
+                movieSection.classList.add(`clicked-movie`);
+                divRef.appendChild(movieSection);
+
+
+                // const sectionRef = document.querySelector(`section:nth-child(3)`);
+                // sectionRef.innerHTML = ``
 
                 const favoriteH2 = document.querySelector(`.favorites-container__title`);
                 favoriteH2.textContent = `Movie information`
 
-            
+
                 // Skapa och visa detaljer om den valda filmen
                 const articleMovie = document.createElement(`article`);
-                articleMovie.classList.add(`article-movie`);
+                articleMovie.classList.add(`clicked-movie__article-movie`);
                 articleMovie.dataset.id = movie.id
-                divRef.appendChild(articleMovie);
+                movieSection.appendChild(articleMovie);
 
                 const posterElem = document.createElement(`img`);
                 posterElem.src = movie.poster;
@@ -107,54 +116,65 @@ const setupFavorites = async () => {
                 articleMovie.appendChild(posterElem);
 
                 const sectionInfo = document.createElement(`section`);
-                sectionInfo.classList.add(`movie-section`);
-                divRef.appendChild(sectionInfo)
+                sectionInfo.classList.add(`clicked-movie__info-section`);
+                movieSection.appendChild(sectionInfo);
 
-                const imdbRatingRef = document.createElement(`p`);
-                imdbRatingRef.classList.add(`movie-rating`);
-                imdbRatingRef.textContent = `Imdb rating: ${details.imdbRating} / 10`
-                sectionInfo.appendChild(imdbRatingRef)
 
                 const titleElem = document.createElement(`p`);
-                titleElem.classList.add(`movie-title`);
+                titleElem.classList.add(`clicked-movie__title`);
                 titleElem.textContent = details.Title;
-                divRef.appendChild(titleElem);
+                sectionInfo.appendChild(titleElem);
 
-                const infoText = document.createElement(`p`);
-                infoText.classList.add(`movie-info`);
-                infoText.textContent = `${details.Plot}`
-                sectionInfo.appendChild(infoText)
 
-                const yearRef = document.createElement(`p`)
-                yearRef.classList.add(`movie-year`);
-                yearRef.textContent = `Year: ${details.Year}`
-                sectionInfo.appendChild(yearRef)
-
-                const actorsRef = document.createElement(`p`)
-                actorsRef.classList.add(`movie-actor`);
-                actorsRef.textContent = `Actor: ${details.Actors}`
-                sectionInfo.appendChild(actorsRef);
-
+                const yearRef = document.createElement(`p`);
+                yearRef.classList.add(`clicked-movie__year`);
+                yearRef.textContent = `Year: ${details.Year}`;
+                sectionInfo.appendChild(yearRef);
 
                 const genreRef = document.createElement(`p`);
-                genreRef.classList.add(`movie-genre`);
-                genreRef.textContent = `Genre: ${details.Genre}`
-                sectionInfo.appendChild(genreRef)
+                genreRef.classList.add(`clicked-movie__genre`);
+                genreRef.textContent = `Genre: ${details.Genre}`;
+                sectionInfo.appendChild(genreRef);
 
-                const writerRef = document.createElement(`p`);
-                writerRef.classList.add(`movie-writer`);
-                writerRef.textContent = `Writer: ${details.Writer}`
-                sectionInfo.appendChild(writerRef)
 
-                const directorRef = document.createElement(`p`);
-                directorRef.classList.add(`movie-director`);
-                directorRef.textContent = `Director: ${details.Director}`
-                sectionInfo.appendChild(directorRef)
+                const infoText = document.createElement(`p`);
+                infoText.classList.add(`clicked-movie__info`);
+                infoText.textContent = `${details.Plot}`;
+                sectionInfo.appendChild(infoText);
+
+
+                const imdbRatingRef = document.createElement(`p`);
+                imdbRatingRef.classList.add(`clicked-movie__rating`);
+                imdbRatingRef.textContent = `Imdb rating: ${details.imdbRating} / 10`;
+                sectionInfo.appendChild(imdbRatingRef);
 
                 const runTimeRef = document.createElement(`p`);
-                runTimeRef.classList.add(`movie-runtime`);
-                runTimeRef.textContent = `Runtime: ${details.Runtime}`
-                sectionInfo.appendChild(runTimeRef)
+                runTimeRef.classList.add(`clicked-movie__runtime`);
+                runTimeRef.textContent = `Runtime: ${details.Runtime}`;
+                sectionInfo.appendChild(runTimeRef);
+
+
+                const divDown = document.createElement(`div`);
+                divDown.classList.add(`clicked-movie__div-down`);
+                sectionInfo.appendChild(divDown);
+
+
+                const actorsRef = document.createElement(`p`)
+                actorsRef.classList.add(`clicked-movie__actor`);
+                actorsRef.textContent = `Actor: ${details.Actors}`;
+                divDown.appendChild(actorsRef);
+
+
+                const directorRef = document.createElement(`p`);
+                directorRef.classList.add(`clicked-movie__director`);
+                directorRef.textContent = `Director: ${details.Director}`;
+                divDown.appendChild(directorRef);
+
+
+                const writerRef = document.createElement(`p`);
+                writerRef.classList.add(`clicked-movie__writer`);
+                writerRef.textContent = `Writer: ${details.Writer}`;
+                divDown.appendChild(writerRef);
 
 
                 console.log(`clicked poster`, posterElem);
@@ -183,8 +203,8 @@ const setupFavorites = async () => {
                     poster: moviePoster
                 };
 
-
-                if (movieElem === movie.id) {
+                
+                if (movieElem.dataset.id === movie.id) {
                     starElem.src = `./res/star-filled.png`;
                     starElem.alt = `Filled star icon for favorites`;
                 }

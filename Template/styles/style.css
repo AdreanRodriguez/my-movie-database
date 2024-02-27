@@ -143,6 +143,8 @@ body {
 /* Här skriver ni er CSS */
 
 
+ h2, p {font-family: sans-serif;}
+
 /* Fixa styling till alla 3 här istället för enskilt */
 /* .results, */
 /* .popular  */
@@ -264,11 +266,68 @@ p {
     background-color: var(--primary-grey);
     padding: 1rem;
     border-radius: 10px;
+    width: 1280px;
+    display: flex;
 }
 
-.movie-section {
+.clicked-movie__info-section {
     line-height: 20px;
+    border-top: 1px solid #ffffff;
+    border-left: 200px solid transparent;
+    border-right: 200px solid transparent;
+    padding: 1rem 0 1rem 0;
+    /* margin-left: 1rem; */
 }
+
+.clicked-movie__div-upper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.clicked-movie__div-down {margin-top: 2rem;}
+
+.clicked-movie__title {
+    font-size: x-large;
+    margin-bottom: 1rem;
+}
+
+.clicked-movie__rating {font-size: large;}
+
+.clicked-movie__year,
+.clicked-movie__genre,
+.clicked-movie__info,
+.clicked-movie__runtime,
+.clicked-movie__actor,
+.clicked-movie__rating,
+.clicked-movie__director {margin-bottom: 1rem;}
+
+
+/* Scroll bar */
+.clicked-movie__info {
+    overflow-y: overlay;
+    height: 160px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 20px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px var(--primary-white);
+    border-radius: 10px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary-white);
+    border-radius: 10px;
+  }
+
+
+ 
 
 
 
