@@ -155,6 +155,105 @@ const renderTwentyMovies = async () => {
             }
         });
         articleRef.appendChild(starElem);
+
+
+
+        articleRef.addEventListener(`click`, async (event) => {
+
+            const details = await loadSpecifiedDetails(event.currentTarget.dataset.id);
+            console.log(`här är våra detaljer`, details);
+
+            const popularCardContainerRef = document.querySelector(`#popularCardContainer`);
+            popularCardContainerRef.innerHTML = ``;
+
+
+            const movieSection = document.createElement(`section`);
+            movieSection.classList.add(`clicked-movie`);
+            popularCardContainerRef.appendChild(movieSection);
+
+
+            const favoriteH2 = document.querySelector(`.popular__title`);
+            favoriteH2.textContent = `Movie information`
+
+            const sectionFour = document.querySelector(`section:nth-child(4)`);
+            sectionFour.innerHTML = ``
+
+
+            // Skapa och visa detaljer om den valda filmen
+            const articleMovie = document.createElement(`article`);
+            articleMovie.classList.add(`clicked-movie__article-movie`);
+            articleMovie.dataset.id = movie.id
+            movieSection.appendChild(articleMovie);
+
+            const posterElem = document.createElement(`img`);
+            posterElem.src = movie.poster;
+            posterElem.alt = movie.title;
+            articleMovie.appendChild(posterElem);
+
+            const sectionInfo = document.createElement(`section`);
+            sectionInfo.classList.add(`clicked-movie__info-section`);
+            movieSection.appendChild(sectionInfo);
+
+
+            const titleElem = document.createElement(`p`);
+            titleElem.classList.add(`clicked-movie__title`);
+            titleElem.textContent = details.Title;
+            sectionInfo.appendChild(titleElem);
+
+
+            const yearRef = document.createElement(`p`);
+            yearRef.classList.add(`clicked-movie__year`);
+            yearRef.textContent = `Year: ${details.Year}`;
+            sectionInfo.appendChild(yearRef);
+
+            const genreRef = document.createElement(`p`);
+            genreRef.classList.add(`clicked-movie__genre`);
+            genreRef.textContent = `Genre: ${details.Genre}`;
+            sectionInfo.appendChild(genreRef);
+
+
+            const infoText = document.createElement(`p`);
+            infoText.classList.add(`clicked-movie__info`);
+            infoText.textContent = `${details.Plot}`;
+            sectionInfo.appendChild(infoText);
+
+
+            const imdbRatingRef = document.createElement(`p`);
+            imdbRatingRef.classList.add(`clicked-movie__rating`);
+            imdbRatingRef.textContent = `Imdb rating: ${details.imdbRating} / 10`;
+            sectionInfo.appendChild(imdbRatingRef);
+
+            const runTimeRef = document.createElement(`p`);
+            runTimeRef.classList.add(`clicked-movie__runtime`);
+            runTimeRef.textContent = `Runtime: ${details.Runtime}`;
+            sectionInfo.appendChild(runTimeRef);
+
+
+            const divDown = document.createElement(`div`);
+            divDown.classList.add(`clicked-movie__div-down`);
+            sectionInfo.appendChild(divDown);
+
+
+            const actorsRef = document.createElement(`p`)
+            actorsRef.classList.add(`clicked-movie__actor`);
+            actorsRef.textContent = `Actor: ${details.Actors}`;
+            divDown.appendChild(actorsRef);
+
+
+            const directorRef = document.createElement(`p`);
+            directorRef.classList.add(`clicked-movie__director`);
+            directorRef.textContent = `Director: ${details.Director}`;
+            divDown.appendChild(directorRef);
+
+
+            const writerRef = document.createElement(`p`);
+            writerRef.classList.add(`clicked-movie__writer`);
+            writerRef.textContent = `Writer: ${details.Writer}`;
+            divDown.appendChild(writerRef);
+
+
+            console.log(`clicked poster`, posterElem);
+        });
     };
 };
 
@@ -181,8 +280,6 @@ searchBtnRef.addEventListener(`click`, async (event) => {
     const favoritesContainerRef = document.querySelector(`#favoritesContainer`);
     favoritesContainerRef.classList.add(`d-none`)
 
-    // const contentWrapperRef = document.querySelector(`.results`);
-    // contentWrapperRef.classList.add(`d-none`)
 
     for (let i = 0; i < inputField.length; i++) {
 
@@ -281,9 +378,6 @@ searchBtnRef.addEventListener(`click`, async (event) => {
             let ulRef = document.querySelector(`#resultsList`);
             ulRef.classList.add(`clicked-movie`)
             ulRef.innerHTML = ``
-
-
-
 
             console.log(event.target.dataset.id);
             const details = await loadSpecifiedDetails(event.currentTarget.dataset.id);

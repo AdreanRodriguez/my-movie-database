@@ -21,8 +21,8 @@ const setupFavorites = async () => {
 
 
         // Tömmer input.
-        const searchInputRef = document.querySelector(`#searchInput`)
-        searchInputRef.value = ``
+        const searchInputRef = document.querySelector(`#searchInput`);
+        searchInputRef.value = ``;
 
         // Tar bort klassen d-none för att kunna visa innehållet i konteinern
         const favoritesContainerRef = document.querySelector(`#favoritesContainer`);
@@ -40,10 +40,12 @@ const setupFavorites = async () => {
         const divRef = document.querySelector(`#favorites`);
         divRef.innerHTML = ``;
 
-        // const movies = await loadOmdbMovies();
-
+        // Kollar om section inte är null
         const sectionInfo = document.querySelector(`.section`);
-        sectionInfo.classList.add(`d-none`)
+        if (sectionInfo !== null) {
+            sectionInfo.classList.add(`d-none`);
+        };
+
 
 
         // Hämta favoritlistan från localStorage
@@ -68,7 +70,7 @@ const setupFavorites = async () => {
             posterElem.src = movie.poster;
             posterElem.alt = movie.title;
             movieElem.appendChild(posterElem);
-            movieElem.appendChild(posterElem)
+            movieElem.appendChild(posterElem);
 
             const titleElem = document.createElement(`p`);
             titleElem.classList.add(`popular__movie-title`);
@@ -77,7 +79,7 @@ const setupFavorites = async () => {
 
             let starElem = document.createElement(`img`);
             starElem.classList.add(`popular__star`);
-            starElem.dataset.id = movie.id
+            starElem.dataset.id = movie.id;
             starElem.src = `./res/star-filled.png`;
             starElem.alt = `Filled star icon for favorites`;
             movieElem.appendChild(starElem);
@@ -101,13 +103,13 @@ const setupFavorites = async () => {
                 // sectionRef.innerHTML = ``
 
                 const favoriteH2 = document.querySelector(`.favorites-container__title`);
-                favoriteH2.textContent = `Movie information`
+                favoriteH2.textContent = `Movie information`;
 
 
                 // Skapa och visa detaljer om den valda filmen
                 const articleMovie = document.createElement(`article`);
                 articleMovie.classList.add(`clicked-movie__article-movie`);
-                articleMovie.dataset.id = movie.id
+                articleMovie.dataset.id = movie.id;
                 movieSection.appendChild(articleMovie);
 
                 const posterElem = document.createElement(`img`);
@@ -191,7 +193,7 @@ const setupFavorites = async () => {
                 starElem.dataset.id = movie.id
 
                 const movieId = movie.id;
-                const movieImdbID = movie.imdbID
+                const movieImdbID = movie.imdbID;
                 const movieTitle = titleElem.textContent;
                 const moviePoster = posterElem.src;
 
@@ -203,7 +205,7 @@ const setupFavorites = async () => {
                     poster: moviePoster
                 };
 
-                
+
                 if (movieElem.dataset.id === movie.id) {
                     starElem.src = `./res/star-filled.png`;
                     starElem.alt = `Filled star icon for favorites`;
