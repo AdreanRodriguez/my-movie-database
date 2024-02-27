@@ -83,6 +83,8 @@ const renderTwentyMovies = async () => {
     const popularCardContainerRef = document.querySelector(`#popularCardContainer`);
     let favorites = JSON.parse(localStorage.getItem(`favorites`)) || [];
 
+    
+
     for (let i = 0; i < twentyMovies.length; i++) {
 
         const movie = twentyMovies[i];
