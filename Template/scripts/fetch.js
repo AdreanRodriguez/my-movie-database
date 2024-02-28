@@ -13,7 +13,6 @@ const loadTwentyMovies = async () => {
     }
 }
 
-
 const loadOmdbMovies = async () => {
 
     try {
@@ -26,7 +25,6 @@ const loadOmdbMovies = async () => {
     }
 };
 
-
 const loadSpecifiedDetails = async (id) => {
     try {
         const response = await fetch(`http://www.omdbapi.com/?apikey=${apiKey}&plot=full&i=${id}`);
@@ -38,6 +36,5 @@ const loadSpecifiedDetails = async (id) => {
         console.error(`Faild to fetch data from plot full API`)
     }
 }
-
 
 export { loadTwentyMovies, loadOmdbMovies, loadSpecifiedDetails };

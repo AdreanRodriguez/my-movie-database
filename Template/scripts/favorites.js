@@ -38,6 +38,8 @@ const setupFavorites = async () => {
 
         // Tömmer favoriter så det inte blir dubletter
         const divRef = document.querySelector(`#favorites`);
+        // Måste lägga till klassen för den försvinner på rad 98
+        divRef.classList.add(`favorites`);
         divRef.innerHTML = ``;
 
         // Kollar om section inte är null
@@ -47,21 +49,18 @@ const setupFavorites = async () => {
         };
 
 
-
         // Hämta favoritlistan från localStorage
         const favorites = JSON.parse(localStorage.getItem(`favorites`)) || [];
-
 
         console.log('Favoriter i localStorage:', favorites);
 
         favorites.forEach(movie => {
 
-            console.log('Nuvarande filmobjekt:', movie);
 
             const divRef = document.querySelector(`#favorites`);
 
             const movieElem = document.createElement(`article`);
-            movieElem.classList.add(`popular__movie-poster`);
+            movieElem.classList.add(`favorite__movie-poster`);
             movieElem.dataset.id = movie.id;
 
             divRef.appendChild(movieElem);
@@ -69,7 +68,6 @@ const setupFavorites = async () => {
             const posterElem = document.createElement(`img`);
             posterElem.src = movie.poster;
             posterElem.alt = movie.title;
-            movieElem.appendChild(posterElem);
             movieElem.appendChild(posterElem);
 
             const titleElem = document.createElement(`p`);
@@ -85,17 +83,21 @@ const setupFavorites = async () => {
             movieElem.appendChild(starElem);
 
 
-
-
             posterElem.addEventListener(`click`, async () => {
 
                 const details = await loadSpecifiedDetails(movie.id);
                 console.log(`här är våra detaljer`, details);
 
+                const divRef = document.querySelector(`.favorites`);
+                divRef.classList.remove(`favorites`);
+                
+                divRef.classList.add(`favorites-container__clicked-movie`)
                 divRef.innerHTML = ``;
 
                 const movieSection = document.createElement(`section`);
-                movieSection.classList.add(`clicked-movie`);
+                // För att kunna göra det responsivt så har jag en annan klass för att inte förstöra för allt annat.
+                movieSection.classList.add(`favorites__clicked-movie`);
+
                 divRef.appendChild(movieSection);
 
 
@@ -108,7 +110,7 @@ const setupFavorites = async () => {
 
                 // Skapa och visa detaljer om den valda filmen
                 const articleMovie = document.createElement(`article`);
-                articleMovie.classList.add(`clicked-movie__article-movie`);
+                articleMovie.classList.add(`favorites__clicked-movie__article-movie`);
                 articleMovie.dataset.id = movie.id;
                 movieSection.appendChild(articleMovie);
 

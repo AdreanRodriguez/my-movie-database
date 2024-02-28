@@ -1,5 +1,4 @@
 
-
 const renderSearchListener = async () => {
 
     const resultWrapper = document.querySelector(`section:nth-child(3)`);
@@ -10,7 +9,6 @@ const renderSearchListener = async () => {
 
     const popularCardContainerRef = document.querySelector(`section:nth-child(5)`);
     popularCardContainerRef.innerHTML = ``;
-
 }
 
 
