@@ -106,7 +106,6 @@ const renderTwentyMovies = async () => {
 
 
         favorites.forEach(movie => {
-
             if (articleRef.dataset.id === movie.id) {
                 starElem.src = `./res/star-filled.png`;
                 starElem.alt = `Filled star icon for favorites`;
@@ -129,7 +128,7 @@ const renderTwentyMovies = async () => {
                     title: movieTitle,
                     poster: moviePoster
                 };
-
+                event.stopPropagation();
                 addToFavorites(movieInfo);
 
                 isFilledStar = true;
@@ -138,6 +137,7 @@ const renderTwentyMovies = async () => {
                 isFilledStar = false;
                 starElem.alt = `Hollow star icon for favorites`;
                 removeFromFavorites(articleRef.dataset.id);
+                event.stopPropagation();
             };
         });
         articleRef.appendChild(starElem);
@@ -160,7 +160,7 @@ const renderTwentyMovies = async () => {
             favoriteH2.textContent = `Movie information`;
 
             const sectionFour = document.querySelector(`section:nth-child(4)`);
-            sectionFour.innerHTML = ``
+            sectionFour.innerHTML = ``;
 
             const articleMovie = document.createElement(`article`);
             articleMovie.classList.add(`clicked-movie__article-movie`);
@@ -229,7 +229,7 @@ const renderTwentyMovies = async () => {
 };
 
 
-// Rendera ut "korten" när man sökt efter film.
+// Rendera ut filmerna när man sökt efter film.
 const searchBtnRef = document.querySelector(`#searchBtn`);
 searchBtnRef.addEventListener(`click`, async (event) => {
 
@@ -264,7 +264,7 @@ searchBtnRef.addEventListener(`click`, async (event) => {
 
         const posterElem = document.createElement(`img`);
         posterElem.src = movie.Poster;
-        posterElem.alt = movie.Title;
+        posterElem.alt = `Movie poster of ${movie.Title}`;
 
         articleRef.appendChild(posterElem);
 

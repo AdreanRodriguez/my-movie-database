@@ -52,10 +52,8 @@ const setupFavorites = async () => {
         // Hämta favoritlistan från localStorage
         const favorites = JSON.parse(localStorage.getItem(`favorites`)) || [];
 
-        console.log('Favoriter i localStorage:', favorites);
 
         favorites.forEach(movie => {
-
 
             const divRef = document.querySelector(`#favorites`);
 
@@ -86,7 +84,6 @@ const setupFavorites = async () => {
             posterElem.addEventListener(`click`, async () => {
 
                 const details = await loadSpecifiedDetails(movie.id);
-                console.log(`här är våra detaljer`, details);
 
                 const divRef = document.querySelector(`.favorites`);
                 divRef.classList.remove(`favorites`);
@@ -180,8 +177,6 @@ const setupFavorites = async () => {
                 writerRef.textContent = `Writer: ${details.Writer}`;
                 divDown.appendChild(writerRef);
 
-
-                console.log(`clicked poster`, posterElem);
             });
 
 
@@ -189,7 +184,6 @@ const setupFavorites = async () => {
 
             starElem.addEventListener(`click`, async () => {
 
-                console.log(`When clicked, star is filled`);
                 starElem.src = `./res/star.png`;
                 starElem.alt = `Hollow star icon for favorites`;
                 starElem.dataset.id = movie.id
@@ -236,10 +230,9 @@ const setupFavorites = async () => {
 
 
 
-            })
-            console.log(`Längst ner i favorites`);
-        })
+            });
+        });
     });
-}
+};
 
 export { setupFavorites };

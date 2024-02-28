@@ -387,7 +387,7 @@ p {
 
     .favorites-container__clicked-movie {
         display: flex;
-        padding: 10px;
+        padding: 5px;
     }
 
     .favorites__clicked-movie {
