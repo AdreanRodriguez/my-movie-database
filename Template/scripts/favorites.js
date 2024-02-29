@@ -2,18 +2,11 @@ import { removeFromFavorites } from "./localStorage.js";
 import { loadOmdbMovies, loadSpecifiedDetails } from "./fetch.js";
 
 
-
-
-
 const setupFavorites = async () => {
 
     // // Gömmer section nr 3
     const sectionThree = document.querySelector(`section:nth-child(3)`);
     sectionThree.classList.add(`d-none`)
-
-
-
-
 
     const favBtnRef = document.querySelector(`#favBtn`);
     favBtnRef.addEventListener(`click`, async (event) => {
@@ -36,10 +29,10 @@ const setupFavorites = async () => {
         const sectionFive = document.querySelector(`section:nth-child(5)`);
         sectionFive.innerHTML = ``;
 
-        // Tömmer favoriter så det inte blir dubletter
         const divRef = document.querySelector(`#favorites`);
-        // Måste lägga till klassen för den försvinner på rad 98
+        // Måste lägga till klassen för den försvinner på rad 79
         divRef.classList.add(`favorites`);
+        // Tömmer favoriter så det inte blir dubletter
         divRef.innerHTML = ``;
 
         // Kollar om section inte är null
@@ -48,10 +41,8 @@ const setupFavorites = async () => {
             sectionInfo.classList.add(`d-none`);
         };
 
-
         // Hämta favoritlistan från localStorage
         const favorites = JSON.parse(localStorage.getItem(`favorites`)) || [];
-
 
         favorites.forEach(movie => {
 
@@ -80,14 +71,13 @@ const setupFavorites = async () => {
             starElem.alt = `Filled star icon for favorites`;
             movieElem.appendChild(starElem);
 
-
             posterElem.addEventListener(`click`, async () => {
 
                 const details = await loadSpecifiedDetails(movie.id);
 
                 const divRef = document.querySelector(`.favorites`);
                 divRef.classList.remove(`favorites`);
-                
+
                 divRef.classList.add(`favorites-container__clicked-movie`)
                 divRef.innerHTML = ``;
 
@@ -97,13 +87,8 @@ const setupFavorites = async () => {
 
                 divRef.appendChild(movieSection);
 
-
-                // const sectionRef = document.querySelector(`section:nth-child(3)`);
-                // sectionRef.innerHTML = ``
-
                 const favoriteH2 = document.querySelector(`.favorites-container__title`);
                 favoriteH2.textContent = `Movie information`;
-
 
                 // Skapa och visa detaljer om den valda filmen
                 const articleMovie = document.createElement(`article`);
@@ -137,12 +122,10 @@ const setupFavorites = async () => {
                 genreRef.textContent = `Genre: ${details.Genre}`;
                 sectionInfo.appendChild(genreRef);
 
-
                 const infoText = document.createElement(`p`);
                 infoText.classList.add(`clicked-movie__info`);
                 infoText.textContent = `${details.Plot}`;
                 sectionInfo.appendChild(infoText);
-
 
                 const imdbRatingRef = document.createElement(`p`);
                 imdbRatingRef.classList.add(`clicked-movie__rating`);
@@ -154,23 +137,19 @@ const setupFavorites = async () => {
                 runTimeRef.textContent = `Runtime: ${details.Runtime}`;
                 sectionInfo.appendChild(runTimeRef);
 
-
                 const divDown = document.createElement(`div`);
                 divDown.classList.add(`clicked-movie__div-down`);
                 sectionInfo.appendChild(divDown);
-
 
                 const actorsRef = document.createElement(`p`)
                 actorsRef.classList.add(`clicked-movie__actor`);
                 actorsRef.textContent = `Actor: ${details.Actors}`;
                 divDown.appendChild(actorsRef);
 
-
                 const directorRef = document.createElement(`p`);
                 directorRef.classList.add(`clicked-movie__director`);
                 directorRef.textContent = `Director: ${details.Director}`;
                 divDown.appendChild(directorRef);
-
 
                 const writerRef = document.createElement(`p`);
                 writerRef.classList.add(`clicked-movie__writer`);
@@ -180,19 +159,16 @@ const setupFavorites = async () => {
             });
 
 
-
-
             starElem.addEventListener(`click`, async () => {
 
                 starElem.src = `./res/star.png`;
                 starElem.alt = `Hollow star icon for favorites`;
-                starElem.dataset.id = movie.id
+                starElem.dataset.id = movie.id;
 
                 const movieId = movie.id;
                 const movieImdbID = movie.imdbID;
                 const movieTitle = titleElem.textContent;
                 const moviePoster = posterElem.src;
-
 
                 const movieInfo = {
                     id: movieId,
@@ -200,7 +176,6 @@ const setupFavorites = async () => {
                     title: movieTitle,
                     poster: moviePoster
                 };
-
 
                 if (movieElem.dataset.id === movie.id) {
                     starElem.src = `./res/star-filled.png`;
@@ -213,8 +188,6 @@ const setupFavorites = async () => {
                 // Ta bort filmen från DOM
                 movieElem.remove();
 
-                console.log(`localStorage Clicked`);
-
                 // Kontrollera om filmen redan finns i favoriter
                 const favorites = JSON.parse(localStorage.getItem(`favorites`)) || [];
 
@@ -224,12 +197,8 @@ const setupFavorites = async () => {
                     removeFromFavorites(movieId); // Ta bort filmen från favoriter
                     favorites.splice(movieIndex, 1); // Ta bort filmen från den lokala arrayen
                 }
-
                 // Uppdatera localStorage efter att en film tagits bort från favoriter
                 localStorage.setItem(`favorites`, JSON.stringify(favorites));
-
-
-
             });
         });
     });

@@ -11,5 +11,4 @@ const renderSearchListener = async () => {
     popularCardContainerRef.innerHTML = ``;
 }
 
-
 export { renderSearchListener };

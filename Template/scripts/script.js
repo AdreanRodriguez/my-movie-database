@@ -32,7 +32,6 @@ function setupCarousel() {
             } else if (newIndex >= slides.children.length) {
                 newIndex = 0;
             }
-
             slides.children[newIndex].dataset.active = true;
             delete activeSlide.dataset.active;
         });
@@ -69,7 +68,6 @@ const fiveTrailers = async () => {
         };
     };
 };
-
 
 
 // Rendera ut 20 filmer i popular__card-container
@@ -128,7 +126,7 @@ const renderTwentyMovies = async () => {
                     title: movieTitle,
                     poster: moviePoster
                 };
-                event.stopPropagation();
+                event.stopPropagation(); // För att man ska kunna klicka på stjärnan utan att detaljer om filmen visas eftersom jag har klickevent på hela article.
                 addToFavorites(movieInfo);
 
                 isFilledStar = true;
@@ -137,12 +135,12 @@ const renderTwentyMovies = async () => {
                 isFilledStar = false;
                 starElem.alt = `Hollow star icon for favorites`;
                 removeFromFavorites(articleRef.dataset.id);
-                event.stopPropagation();
+                event.stopPropagation(); // För att man ska kunna klicka på stjärnan utan att detaljer om filmen visas eftersom jag har klickevent på hela article.
             };
         });
         articleRef.appendChild(starElem);
 
-
+        // Klickevent på article för att kunna se info om filmen
         articleRef.addEventListener(`click`, async (event) => {
 
             const details = await loadSpecifiedDetails(event.currentTarget.dataset.id);
@@ -282,14 +280,12 @@ searchBtnRef.addEventListener(`click`, async (event) => {
         starElem.alt = `Hollow star icon for favorites`;
         starElem.src = `./res/star.png`;
 
-
         favorites.forEach(movie => {
             if (articleRef.dataset.id === movie.id) {
                 starElem.src = `./res/star-filled.png`;
                 starElem.alt = `Filled star icon for favorites`;
             };
         });
-
 
         let isFilledStar = false;
         starElem.addEventListener(`click`, async () => {
@@ -315,7 +311,7 @@ searchBtnRef.addEventListener(`click`, async (event) => {
                 starElem.alt = `Hollow star icon for favorites`;
                 isFilledStar = false;
                 removeFromFavorites(articleRef.dataset.id);
-            }
+            };
         });
 
         articleRef.appendChild(starElem);
@@ -329,6 +325,7 @@ searchBtnRef.addEventListener(`click`, async (event) => {
 
         posterElem.dataset.id = movie.imdbID;
 
+        // Klickevent på postern för att kunna se info om filmen
         posterElem.addEventListener(`click`, async (event) => {
 
 
@@ -341,7 +338,7 @@ searchBtnRef.addEventListener(`click`, async (event) => {
 
             // Skapa och visa detaljer om den valda filmen
             const articleMovie = document.createElement(`article`);
-            articleMovie.classList.add(`clicked-movie__article-movie`);
+            articleMovie.classList.add(`results__clicked-movie__article-movie`);
             articleMovie.dataset.id = movie.id;
             ulRef.appendChild(articleMovie);
 
@@ -402,8 +399,8 @@ searchBtnRef.addEventListener(`click`, async (event) => {
             writerRef.classList.add(`clicked-movie__writer`);
             writerRef.textContent = `Writer: ${details.Writer}`;
             sectionInfo.appendChild(writerRef);
-        })
+        });
     };
 });
 
-export { loadSpecifiedDetails }
+export { loadSpecifiedDetails };
