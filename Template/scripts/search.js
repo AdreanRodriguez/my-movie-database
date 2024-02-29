@@ -1,5 +1,3 @@
-import { loadOmdbMovies } from "./fetch.js";
-
 
 const renderSearchListener = async () => {
 
@@ -12,6 +10,5 @@ const renderSearchListener = async () => {
     const popularCardContainerRef = document.querySelector(`section:nth-child(5)`);
     popularCardContainerRef.innerHTML = ``;
 }
-
 
 export { renderSearchListener };
