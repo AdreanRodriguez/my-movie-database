@@ -1,4 +1,4 @@
-![logo](/Template/res/logo.png)
+![logo](/res/logo.png)
 
 # Individuellt examensarbete - MyMovieDatabase
 
